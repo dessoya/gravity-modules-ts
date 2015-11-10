@@ -1,3 +1,7 @@
+interface MyWindow extends Window {
+	onhashchange(): void;
+}
+declare var window: MyWindow;
 
 // use: Section.ts
 
@@ -13,16 +17,17 @@ export class Navigator extends PluginManager.Manager {
 	}
 
 	getSectionByHash(hash: string): Section {
-
+		return null
 	}
 
 	getDefaultSection(): Section {
-
+		return null
 	}
 
 	start() {		
 
 		let self = this
+
 		window.onhashchange = function() {
 
 			var hash = window.location.hash

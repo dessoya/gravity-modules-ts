@@ -33,9 +33,12 @@ export class Manager {
 
 	}
 
-	fireEvent() {
+	fireEvent(method: string, ...args: Array<any>);
+	// fireEvent(method: string);
+
+	fireEvent(method: string) {
 		var args = Array.prototype.slice.call(arguments)
-		var method: string = args.shift()
+		args.shift()
 
 		var parent = this.getRootPlugin()
 		parent._fireEvent(method, args)
