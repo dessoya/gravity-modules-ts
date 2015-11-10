@@ -1,7 +1,7 @@
 
 export class Manager {
 
-	_parentManager: Manager
+	private _parentManager: Manager
     plugins: Array<Manager>
 
 	constructor() {
@@ -34,7 +34,6 @@ export class Manager {
 	}
 
 	fireEvent(method: string, ...args: Array<any>);
-	// fireEvent(method: string);
 
 	fireEvent(method: string) {
 		var args = Array.prototype.slice.call(arguments)
