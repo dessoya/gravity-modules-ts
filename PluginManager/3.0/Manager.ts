@@ -2,14 +2,14 @@
 export class Manager {
 
 	private _parentManager: Manager
-    plugins: Array<Manager>
+    _plugins: Array<Manager>
 
 	constructor() {
-		this.plugins = [ ]
+		this._plugins = [ ]
 	}
 
 	addPlugin(plugin: Manager) {
-		this.plugins.push(plugin)
+		this._plugins.push(plugin)
 		plugin._parentManager = this
 	}
 
@@ -18,7 +18,7 @@ export class Manager {
 			return this._parentManager
 		}
 		return this
-	}
+	} 
 
 	_fireEvent(method: string, args: Array<any>) {
 
@@ -26,7 +26,7 @@ export class Manager {
 	    	this[method].apply(this, args)
 	    }
 
-		for(var i = 0, c = this.plugins, l = c.length; i < l; i++) {
+		for(var i = 0, c = this._plugins, l = c.length; i < l; i++) {
 			var plugin = c[i]
 			plugin._fireEvent(method, args)
 		}
@@ -45,12 +45,12 @@ export class Manager {
 
 	removeAllPlugins() {
 
-		for(var i = 0, c = this.plugins, l = c.length; i < l; i++) {
+		for(var i = 0, c = this._plugins, l = c.length; i < l; i++) {
 			var plugin = c[i]
 			delete plugin._parentManager
 		}
 
-		this.plugins = [ ]
+		this._plugins = [ ]
 	}
 
 }

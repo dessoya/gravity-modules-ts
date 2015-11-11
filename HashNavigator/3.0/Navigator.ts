@@ -31,7 +31,8 @@ export class Navigator extends PluginManager.Manager {
 	}
 
 	activate(section: ISection) {
-
+		console.log('activate')
+		console.log(section)
 	}
 
 	getSectionByHash(hash: string): ISection {
@@ -71,7 +72,7 @@ export class Navigator extends PluginManager.Manager {
 			var section = self.getSectionByHash(hash) || self.getDefaultSection()
 
 			if (section) {
-				this.activate(section)
+				self.activate(section)
 			}
 			else {
 				window.location.hash = ''
