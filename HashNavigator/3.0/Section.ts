@@ -1,10 +1,4 @@
 
-export interface ISection {
-
-	getRE(): any;
-
-}
-
-export class Section {
-
+export abstract class Section {
+	public hashRE: string
 } 
