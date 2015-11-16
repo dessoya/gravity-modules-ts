@@ -12,7 +12,7 @@ export abstract class Control extends PluginManager.Manager {
 	private static _idGenerator: number = 1
 	public elemId: string
 	private _parentElement: HTMLElement
-	private _el: HTMLElement
+	public el: HTMLElement
 
 	constructor() {
 		super()
@@ -21,10 +21,10 @@ export abstract class Control extends PluginManager.Manager {
 	}
 
 	private _afterPlace(): void {
-		this._el = document.getElementById(this.elemId)
+		this.el = document.getElementById(this.elemId)
 
-		var c = <NodeList>this._el.querySelectorAll("*")
-		var c1: NodeList = <NodeList>( <any> [ this._el ] )
+		var c = <NodeList>this.el.querySelectorAll("*")
+		var c1: NodeList = <NodeList>( <any> [ this.el ] )
 		this._processMarks(c1)
 		this._processMarks(c)
 		this.afterPlace()
