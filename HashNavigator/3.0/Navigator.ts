@@ -20,7 +20,7 @@ export class Navigator extends PluginManager.Manager {
 		this._sectionsOrder = [ null ]
 	}
 
-	add(section: Section) {
+	addSection(section: Section) {
 		var re = section.hashRE
 		if (this._searchSectionRESource.length > 0) {
 			this._searchSectionRESource += '|'
@@ -30,7 +30,7 @@ export class Navigator extends PluginManager.Manager {
 		this._sectionsOrder.push(section)
 	}
 
-	activate(section: Section) {
+	activateSection(section: Section) {
 		console.log('activate')
 		console.log(section)
 	}
@@ -72,7 +72,7 @@ export class Navigator extends PluginManager.Manager {
 			var section = self.getSectionByHash(hash) || self.getDefaultSection()
 
 			if (section) {
-				self.activate(section)
+				self.activateSection(section)
 			}
 			else {
 				window.location.hash = ''
