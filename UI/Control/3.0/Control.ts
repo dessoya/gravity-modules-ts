@@ -66,37 +66,21 @@ export abstract class Control extends PluginManager.Manager {
 	}
 
 	execute(code: string, element: HTMLElement, arg1?: any): any {
-		var index = 0, args = [], text = ''
+		var index = 0, args = [], text = '', self = this
 		var iter = function(name: string, c: any) {
 			var item = c[name]
 			if ('function' === typeof item) {
-				item = item.bind(this)
+				item = item.bind(self)
 			}
 			args.push(item);
 			text += 'var ' + name + '=_a[' + index++ + '];';
-		}.bind(this)
+		}
 		for(var name in this) {
 			iter(name, this)
-			/*
-			var item = this[name]
-			if ('function' === typeof item) {
-				item = item.bind(this)
-			}
-			args.push(item);
-			text += 'var ' + name + '=_a[' + index++ + '];';		
-			*/
 		}
 		var p = Object.getPrototypeOf(this)
 		for (let name of Object.getOwnPropertyNames(p)) {
 			iter(name, p)
-			/*
-			var item = p[name]
-			if ('function' === typeof item) {
-				item = item.bind(this)
-			}
-			args.push(item);
-			text += 'var ' + name + '=_a[' + index++ + '];';
-			*/
 		}
 		var func = '(function(_a,_c,element,arg1){' + text + 'return eval(_c);})';
 		return eval(func)(args, code, element, arg1);

@@ -20,9 +20,9 @@ export class Manager {
 		return this
 	} 
 
-	_fireEvent(method: string, args: Array<any>) {
-
-	    if(method in this) {
+	_fireEvent(method: string, args: Array<any>, onlyChilds?: boolean) {
+		
+	    if(onlyChilds && method in this) {
 	    	this[method].apply(this, args)
 	    }
 

@@ -12,6 +12,7 @@ export class Navigator extends PluginManager.Manager {
 	private _searchSectionRE: any
 	private _searchSectionRESource: string
 	private _sectionsOrder: Array<Section>
+	private _currentSection: Section = null
 
 	constructor() {
 		super()
@@ -31,8 +32,9 @@ export class Navigator extends PluginManager.Manager {
 	}
 
 	activateSection(section: Section) {
-		console.log('activate')
-		console.log(section)
+		if (this._currentSection !== section) {
+			(this._currentSection = section).activate()
+		}
 	}
 
 	getSectionByHash(hash: string): Section {
@@ -71,10 +73,14 @@ export class Navigator extends PluginManager.Manager {
 
 			var section = self.getSectionByHash(hash) || self.getDefaultSection()
 
+			// console.log('section')
+			// console.log(section)
+
 			if (section) {
 				self.activateSection(section)
 			}
 			else {
+				self._currentSection = null
 				window.location.hash = ''
 			}
 		}
