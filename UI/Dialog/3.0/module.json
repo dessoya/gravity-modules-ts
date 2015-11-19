@@ -1,0 +1,8 @@
+{
+	"use": "PluginManager|3.*",
+	"use1": "UI/Control/Builder|3.*,PluginManager|3.*",
+
+	"debug": {
+		"css": [ "Dialog.css" ]
+	}
+}

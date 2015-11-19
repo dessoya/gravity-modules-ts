@@ -2,5 +2,6 @@
     "HashNavigator": [ "3.0" ],
     "PluginManager": [ "3.0" ],
     "UI/Control": [ "3.0" ],
+    "UI/Dialog": [ "3.0" ],
     "Net/AJAX": [ "3.0" ]
 }

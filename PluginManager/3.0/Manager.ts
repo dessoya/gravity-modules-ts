@@ -21,8 +21,9 @@ export class Manager {
 	} 
 
 	_fireEvent(method: string, args: Array<any>, onlyChilds?: boolean) {
-		
-	    if(onlyChilds && method in this) {
+
+		onlyChilds = onlyChilds ? true : false
+		if (!onlyChilds && method in this) {
 	    	this[method].apply(this, args)
 	    }
 

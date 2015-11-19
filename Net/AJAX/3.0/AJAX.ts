@@ -1,7 +1,7 @@
 
 // use: Types.ts
 
-export class AJAX extends PluginManager.Manager {
+export class AJAX {
 
 	static plugins: PluginManager.Manager = new PluginManager.Manager
 	static Plugins: any = { }
@@ -15,14 +15,11 @@ export class AJAX extends PluginManager.Manager {
 	public req: any
 
 	constructor(prop: Props, callback?: Callback) {
-		super()
 		this.prop = prop
 		this.callback = callback
 
-		this.addPlugin(AJAX.plugins)
-
-		var req = this.req = new XMLHttpRequest();
-		req.onreadystatechange = this.onRequest.bind(this);
+		var req = this.req = new XMLHttpRequest()
+		req.onreadystatechange = this.onRequest.bind(this)
 
 		var params = {
 			url: prop.url,
@@ -30,7 +27,7 @@ export class AJAX extends PluginManager.Manager {
 			post: null
 		}
 
-		this.fireEvent('beforeAJAXRequest', this, params, prop)
+		AJAX.plugins._fireEvent('beforeAJAXRequest', [ this, params, prop ])
 
 		req.open(params.method, params.url, true)
 		req.send(params.post);
@@ -42,7 +39,7 @@ export class AJAX extends PluginManager.Manager {
         if (req.readyState == 4) {
 			if (req.status == 200) {
 				var o: Result = { answer: req.responseText }
-				this.fireEvent('onAJAX200', this, o)
+				AJAX.plugins._fireEvent('onAJAX200', [ this, o ])
 
 				if (o.skip_callback) {
 					return
