@@ -15,7 +15,7 @@ export abstract class Dialog extends PluginManager.Manager {
 		this.installElements(inner)
 
 		// spawn controls
-		// Builder.build(this, inner)
+		UI_Builder.Builder.build(this, inner)
 
 		inner.style.width = (<HTMLElement>inner.childNodes[0]).offsetWidth + 'px'
 		inner.style.margin = ((el.offsetHeight - (<HTMLElement>inner.childNodes[0]).offsetHeight - 20) / 2) + 'px auto'

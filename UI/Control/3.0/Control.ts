@@ -10,22 +10,45 @@ var marks = {
 export abstract class Control extends PluginManager.Manager {
 	 
 	private static _idGenerator: number = 1
-	public elemId: string
-	private _parentElement: HTMLElement
-	public el: HTMLElement
 
-	constructor() {
+	private _parentElement: HTMLElement
+
+	public elemId: string
+	public el: HTMLElement
+	public name: string
+
+	// initDefaluts() { }
+
+	constructor(params) {
 		super()
 
+		// this.initDefaluts()
+
+		if (params.name) {
+			this.name = params.name
+			delete params.name
+		}
+
+		var p = Object.getPrototypeOf(this)
+		if (p.params) {
+			var names: Array<string> = p.params
+
+			for (var i = 0, l = names.length; i < l; i++) {
+				var name = names[i]
+				if (name in params) {
+					this[name] = params[name]
+				}
+			}
+		}
+
 		this.elemId = 'ctrl-' + Control._idGenerator ++
-	}
+	} 
 
 	private _afterPlace(): void {
 		this.el = document.getElementById(this.elemId)
 
 		var c = <NodeList>this.el.querySelectorAll("*")
-		var c1: NodeList = <NodeList>( <any> [ this.el ] )
-		this._processMarks(c1)
+		this._processMarks(<NodeList>(<any>[this.el]))
 		this._processMarks(c)
 		this.afterPlace()
 	}
