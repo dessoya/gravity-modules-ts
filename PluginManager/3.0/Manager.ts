@@ -24,6 +24,7 @@ export class Manager {
 
 		onlyChilds = onlyChilds ? true : false
 		if (!onlyChilds && method in this) {
+		// if (method in this) {
 	    	this[method].apply(this, args)
 	    }
 
@@ -39,6 +40,8 @@ export class Manager {
 	fireEvent(method: string) {
 		var args = Array.prototype.slice.call(arguments)
 		args.shift()
+
+		console.log('fireEvent', method, args)
 
 		var parent = this.getRootPlugin()
 		parent._fireEvent(method, args)

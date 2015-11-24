@@ -7,12 +7,6 @@ export class Edit extends UI_Control.Control {
 
 	static params: Array<string> = 'type,width,password'.split(',')
 
-/*
-	initDefaluts() {
-		this.type = 'text'
-		this.width = 100
-	}
-*/
 	constructor(params) {		
 		super(params)
 	}
@@ -27,6 +21,20 @@ export class Edit extends UI_Control.Control {
 
 	render(): string {
 		return require('Edit.html')({ id: this.elemId, width: this.width, type: this.getHTMLType() })
+	}
+
+	get value() {
+		// console.log('Edit value', this)
+
+		if (this.el) {
+			// console.log('Edit value 1', (<HTMLInputElement>this.el).value)
+			return (<HTMLInputElement>this.el).value			
+		}
+		return null
+	}
+
+	onKeyup(element: HTMLElement, event: any) {
+		this.fireEvent('on_edit_' + this.name + '_keyup', this.value)
 	}
 
 }

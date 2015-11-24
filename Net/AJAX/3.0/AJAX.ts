@@ -13,6 +13,7 @@ export class AJAX {
 	public prop: Props
 	public callback: Callback
 	public req: any
+	public stash: Object = {}
 
 	constructor(prop: Props, callback?: Callback) {
 		this.prop = prop

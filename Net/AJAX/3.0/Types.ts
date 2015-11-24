@@ -6,6 +6,7 @@ export interface Callback {
 export interface Props {
 	url: string;
 	get?: string;
+	post?: string | Object;
 }
 
 export interface Result {
