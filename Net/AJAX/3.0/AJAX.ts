@@ -1,5 +1,6 @@
 
 // use: Types.ts
+// alias: AJAX
 
 export class AJAX {
 
