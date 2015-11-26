@@ -1,4 +1,6 @@
 
+// alias: Control
+
 /*
 function makeEventFunction(event, event2?) {
 	if (event2) {
@@ -34,6 +36,7 @@ var marks = {
 			control.execute(value, item)
 		}
 	}
+	, afterPlace: [ 'alias', 'after-place' ]
 
 	, keyup: 'event'
 	, click: 'event'
@@ -41,9 +44,20 @@ var marks = {
 
 for (var name in marks) {
 	var value = marks[name]
-	if ('string' === typeof value) {
-		if (value === 'event') {
+	if ('string' === typeof value || value instanceof Array) {
+		var params
+		if (value instanceof Array) {
+			params = value
+			value = value[0]			
+		}
+
+		switch (value) {
+		case 'event':
 			marks[name] = { process: makeEventFunction(name) }
+			break
+		case 'alias':
+			marks[name] = marks[params[1]]
+			break
 		}
 	}
 }
@@ -58,12 +72,14 @@ export abstract class Control extends PluginManager.Manager {
 	public el: HTMLElement
 	public name: string
 
-	constructor(params) {
+	constructor(params?: Object) {
 		super()
 
-		if (params.name) {
-			this.name = params.name
-			delete params.name
+		params = 'object' === typeof params ? params : { }
+
+		if (params['name']) {
+			this.name = params['name']
+			delete params['name']
 		}
 
 		var p = Object.getPrototypeOf(this).constructor
@@ -83,6 +99,9 @@ export abstract class Control extends PluginManager.Manager {
 
 	private _afterPlace(): void {
 		this.el = document.getElementById(this.elemId)
+		if (!this.el) {
+			return
+		}
 
 		var c = <NodeList>this.el.querySelectorAll("*")
 		this._processMarks(<NodeList>(<any>[this.el]))
@@ -108,12 +127,14 @@ export abstract class Control extends PluginManager.Manager {
 	private _processMarks(items: NodeList): void {
 
 		for(var i = 0, l = items.length; i < l; i++) {
-			var item = <HTMLElement>items[i];
+			var item = <HTMLElement>items[i]
 			var dataset = item.dataset
+			// console.log(dataset)
 			for (var name in dataset) {
+				// console.log(name)
 				if (name in marks) {				
 					var mark = marks[name], value = dataset[name]
-					item.removeAttribute(name)
+					item.removeAttribute('data-' + name)
 					mark.process(item, value, this)
 				}
 			}
@@ -154,8 +175,16 @@ export abstract class Control extends PluginManager.Manager {
 		for (let name of Object.getOwnPropertyNames(p)) {
 			iter(name, p)
 		}
-		var func = '(function(_a,_c,element,arg1){' + text + 'return eval(_c);})';
-		return eval(func)(args, code, element, arg1);
+		var func = '(function(_a,_c,element,arg1){' + text + 'return eval(_c);})'
+		var result = null
+		try {
+			result = eval(func)(args, code, element, arg1)
+		}
+		catch (e) {
+			console.log(e, func)
+		}
+
+		return result
 	}
 
 	afterPlace(): void { }
