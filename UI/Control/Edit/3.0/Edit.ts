@@ -1,4 +1,6 @@
 
+// alias: CEdit
+
 export class Edit extends UI_Control.Control {
 
 	public type: string
@@ -24,13 +26,22 @@ export class Edit extends UI_Control.Control {
 	}
 
 	get value() {
-		// console.log('Edit value', this)
-
 		if (this.el) {
-			// console.log('Edit value 1', (<HTMLInputElement>this.el).value)
 			return (<HTMLInputElement>this.el).value			
 		}
 		return null
+	}
+
+	set value(value: string) {		
+		if (this.el) {
+			(<HTMLInputElement>this.el).value = value
+		}
+	}
+
+	focus() {
+		if (this.el) {
+			this.el.focus()
+		}
 	}
 
 	onKeyup(element: HTMLElement, event: any) {
