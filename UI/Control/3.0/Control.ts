@@ -114,13 +114,13 @@ export abstract class Control extends PluginManager.Manager {
 		this.afterPlace()
 	}
 
-	place(selector: any): void {
+	place(selector: string|HTMLElement): void {
 		var el: HTMLElement
 		if ('string' === typeof selector) {
-			el = <HTMLElement>document.querySelector(selector)
+			el = <HTMLElement>document.querySelector(<string>selector)
 		}
 		else {
-			el = selector
+			el = <HTMLElement>selector
 		}
 
 		this._parentElement = el
