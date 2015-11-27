@@ -57,6 +57,11 @@ for (var name in marks) {
 			break
 		case 'alias':
 			marks[name] = marks[params[1]]
+			if (!('aliases' in marks[name])) {
+				marks[name].aliases = {}
+			}
+			marks[name].aliases[name] = true
+			marks[name].aliases[params[1]] = true
 			break
 		}
 	}
@@ -124,6 +129,13 @@ export abstract class Control extends PluginManager.Manager {
 		this._afterPlace()
 	}
 
+	append(element: HTMLElement) {
+		this._parentElement = element
+		this._parentElement.innerHTML = this._parentElement.innerHTML + this.render()
+
+		this._afterPlace()
+	}
+
 	private _processMarks(items: NodeList): void {
 
 		for(var i = 0, l = items.length; i < l; i++) {
@@ -134,7 +146,18 @@ export abstract class Control extends PluginManager.Manager {
 				// console.log(name)
 				if (name in marks) {				
 					var mark = marks[name], value = dataset[name]
-					item.removeAttribute('data-' + name)
+					var remattr = {}
+					remattr[name] = true
+					if (mark.aliases) {
+						remattr = mark.aliases
+					}
+					console.log(remattr)
+					for(var key in remattr) {
+						var aname = 'data-' + key
+						if (item.hasAttribute(aname)) {
+							item.removeAttribute(aname)
+						}
+					}
 					mark.process(item, value, this)
 				}
 			}

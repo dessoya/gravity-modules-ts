@@ -1,12 +1,8 @@
 
 export class Manager {
 
-	private _parentManager: Manager
-    _plugins: Array<Manager>
-
-	constructor() {
-		this._plugins = [ ]
-	}
+	private _parentManager: Manager = null
+    private _plugins: Array<Manager> = [ ]
 
 	addPlugin(plugin: Manager) {
 		this._plugins.push(plugin)
@@ -15,12 +11,14 @@ export class Manager {
 
 	getRootPlugin(): Manager {
 		if(this._parentManager) {
-			return this._parentManager
+			return this._parentManager.getRootPlugin()
 		}
 		return this
 	} 
 
 	_fireEvent(method: string, args: Array<any>, onlyChilds?: boolean) {
+
+	    // console.log(this, arguments)
 
 		onlyChilds = onlyChilds ? true : false
 		if (!onlyChilds && method in this) {
