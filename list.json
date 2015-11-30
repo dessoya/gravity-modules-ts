@@ -2,12 +2,17 @@
     "CommonStyles": [ "1.0" ],
     "Cookie": [ "1.0" ],
     "Crypto/MD5": [ "1.0" ],
-    "HashNavigator": [ "3.0" ],
+
     "PluginManager": [ "3.0" ],
+
+    "HashNavigator": [ "3.0" ],
+    "Hash/Navigator": [ "3.0" ],
+
     "UI/Control": [ "3.0" ],
     "UI/Control/Edit": [ "3.0" ],
     "UI/Control/Button": [ "3.0" ],
     "UI/Builder": [ "3.0" ],
     "UI/Dialog": [ "3.0" ],
+
     "Net/AJAX": [ "3.0" ]
 }
