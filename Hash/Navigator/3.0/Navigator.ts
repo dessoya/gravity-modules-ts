@@ -1,6 +1,4 @@
 
-// use: Section.ts
-
 // alias: Navigator
 
 interface MyWindow extends Window {

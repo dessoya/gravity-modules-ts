@@ -22,6 +22,7 @@ export class Manager {
 	}
 
 	setEventFilter(event: string, re: string) {
+		console.log('setEventFilter',event,re,this)
 		this.getRootPlugin()._setEventFilter(event, re, this)
 	}
 

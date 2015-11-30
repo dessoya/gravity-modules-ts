@@ -5,8 +5,9 @@
 
     "PluginManager": [ "3.0" ],
 
-    "HashNavigator": [ "3.0" ],
     "Hash/Navigator": [ "3.0" ],
+    "Hash/Section": [ "3.0" ],
+    "Hash/Link": [ "3.0" ],
 
     "UI/Control": [ "3.0" ],
     "UI/Control/Edit": [ "3.0" ],

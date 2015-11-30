@@ -1,0 +1,3 @@
+{
+	"use": "PluginManager|3.*,UI/Control|3.*"
+}
