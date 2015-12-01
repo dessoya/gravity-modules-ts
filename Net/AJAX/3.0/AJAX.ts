@@ -29,7 +29,7 @@ export class AJAX {
 			post: null
 		}
 
-		AJAX.plugins._fireEvent('beforeAJAXRequest', [ this, params, prop ])
+		AJAX.plugins.fireEvent('beforeAJAXRequest', this, params, prop)
 
 		req.open(params.method, params.url, true)
 		req.send(params.post);
@@ -41,7 +41,7 @@ export class AJAX {
         if (req.readyState == 4) {
 			if (req.status == 200) {
 				var o: Result = { answer: req.responseText }
-				AJAX.plugins._fireEvent('onAJAX200', [ this, o ])
+				AJAX.plugins.fireEvent('onAJAX200', this, o)
 
 				if (o.skip_callback) {
 					return
