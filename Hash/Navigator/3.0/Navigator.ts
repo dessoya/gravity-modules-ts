@@ -16,7 +16,6 @@ declare var window: MyWindow
 export class Navigator extends Manager {
 
 	private _currentSection: Section = null
-	public eo_onHashChange = true
 
 	getDefaultSection(): Section {
 		return null

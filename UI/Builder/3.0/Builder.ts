@@ -1,7 +1,8 @@
 
 var Controls: Object = {
-	edit: UI_Control_Edit.Edit,
-	button: UI_Control_Button.Button
+	edit: CEdit,
+	button: UI_Control_Button.Button,
+	grid: CGrid
 }
 
 function readAndRemoveAttribute(element: HTMLElement, attrName: string): string {
@@ -43,6 +44,23 @@ function readControlParams(element: HTMLElement, c: any): Object {
 	return params
 }
 
+function readControlParamsFromParent(params: Object, owner: PluginManager.Manager): Object {
+
+	if (owner['controlParams'] && owner['controlParams'][params['name']]) {
+		var cp = owner['controlParams'][params['name']]
+
+		for (var key in params) {
+			cp[key] = params[key]
+		}
+
+		params = cp
+	}
+
+	return params
+}
+
+// alias: Builder
+
 export class Builder {
 
 	static build(owner: PluginManager.Manager, element: HTMLElement): void {
@@ -55,7 +73,9 @@ export class Builder {
 
 				if (className in Controls) {
 					let c = Controls[className]
-					var control = new c(readControlParams(item, c))
+					let cp = readControlParams(item, c)
+					cp = readControlParamsFromParent(cp, owner)
+					var control = new c(cp)
 					owner[control.name] = control
 					owner.addPlugin(control)
 					control.place(item)

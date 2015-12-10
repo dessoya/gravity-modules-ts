@@ -1,17 +1,19 @@
 
 // use: Types.ts
 // use: AJAX.ts
+// use: ResponseHeadersParser.ts
 
 export class JSONParser extends PluginManager.Manager {
 
+	private _responseHeadersParser: ResponseHeadersParser
 	constructor() {
 		super()
-		this.addPlugin(new AJAX.Plugins.ResponseHeadersParser)
+		this._responseHeadersParser = new ResponseHeadersParser
 	}
 	
 	onAJAX200(ajax: AJAX, o: Result) {
 
-		this._fireEvent('onAJAX200', [ ajax, o ], true)
+		this._responseHeadersParser.fireEvent('onAJAX200', ajax, o)
 
 		if (o.headers['Content-Type'] && o.headers['Content-Type'].indexOf('application/json') !== -1) {
 			var p: Object = null

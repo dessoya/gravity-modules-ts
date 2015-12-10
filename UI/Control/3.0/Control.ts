@@ -151,7 +151,7 @@ export abstract class Control extends PluginManager.Manager {
 					if (mark.aliases) {
 						remattr = mark.aliases
 					}
-					console.log(remattr)
+					// console.log(remattr)
 					for(var key in remattr) {
 						var aname = 'data-' + key
 						if (item.hasAttribute(aname)) {

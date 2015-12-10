@@ -12,6 +12,7 @@
     "UI/Control": [ "3.0" ],
     "UI/Control/Edit": [ "3.0" ],
     "UI/Control/Button": [ "3.0" ],
+    "UI/Control/Grid": [ "3.0" ],
     "UI/Builder": [ "3.0" ],
     "UI/Dialog": [ "3.0" ],
 

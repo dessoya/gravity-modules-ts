@@ -3,6 +3,15 @@
 
 export class Manager {
 
+	static regexpArgument = /\*/
+
+	static makeRegexpFromArgument(a: string): RegExp {
+
+		a = a.replace(/\*/g, '.*')
+
+		return new RegExp('^' + a + '$')
+	}
+
 	private _parentManager: Manager
 	private _rootManager: Manager
 
@@ -54,7 +63,7 @@ export class Manager {
 		}
 
 		if (!this._allPlugins) {
-			this._allPlugins = [ ]
+			this._allPlugins = [ this ]
 		}
 
 		this._allPlugins = this._allPlugins.concat(list)
@@ -88,9 +97,14 @@ export class Manager {
 		console.log('fireEvent', event, args)
 
 		let root = this._getRootPlugin()
+
+		if (!root._allPlugins) {
+			root._allPlugins = [ root ]
+		}
+
 		if (!root._events) {
 			root._events = {}
-		}
+		}		
 
 		let events = root._events
 		if (!events[event]) {
@@ -117,115 +131,50 @@ export class Manager {
 		let fevents = root._fevents
 		let f = args[0], m = 'fe_' + event
 		if (!fevents[event]) {
-			fevents[event] = {}
+			var fevent = fevents[event] = {'[regexp]': [ ] }
 			let ma = 'fa_' + event
 			for (let i = 0, c = root._allPlugins, l = c.length; i < l; i++) {
 				var plugin = c[i]
 				if (plugin[m]) {
+
+					/*
+					// debug info
+					if (!plugin[ma]) {
+						console.log(m, ma, plugin)
+					}
+					*/
+
 					var mf = plugin[ma]()
-					if (!fevents[event][mf]) {
-						fevents[event][mf] = [ ]
+
+					// check for regexp
+					if (Manager.regexpArgument.exec(mf)) {
+						fevent['[regexp]'].push(Manager.makeRegexpFromArgument(mf), plugin)
 					}
-					fevents[event][mf].push(plugin)
+					else {
+						if (!fevent[mf]) {
+							fevent[mf] = []
+						}
+						fevent[mf].push(plugin)
+					}
 				}
 			}
 		}
 
-		if (fevents[event][f]) {
-			for (let i = 0, c = fevents[event][f], l = c.length; i < l; i++) {
-				let plugin = c[i]
-				plugin[m].apply(plugin, args)
-			}
-		}
-
-	}
-
-
-	/*
-	setEventFilter(event: string, re: string) {
-		console.log('setEventFilter',event,re,this)
-		this.getRootPlugin()._setEventFilter(event, re, this)
-	}
-
-	_setEventFilter(event: string, re: string, m: Manager) {
-
-		if (this['eo_' + event]) {
-			this.addEventFilter(event, re, m)
-		}
-
-		for (var i = 0, c = this._plugins, l = c.length; i < l; i++) {
-			var plugin = c[i]
-			plugin._setEventFilter(event, re, m)
-		}
-	}
-
-	addEventFilter(event: string, re: string, m: Manager) {
-		if (!this._filtiredEvents) {
-			this._filtiredEvents = {}
-		}
-		if (!this._filtiredEvents[event]) {
-			this._filtiredEvents[event] = { parts: [ ], order: [ null ] }
-		}
-
-		this._filtiredEvents[event].parts.push('(' + re + ')')
-		this._filtiredEvents[event].order.push(m)
-
-		this._filtiredEvents[event].re = new RegExp('^(?:' + this._filtiredEvents[event].parts.join('|') + ')$')
-	}
-	*/
-
-
-	/*
-	_fireEvent(method: string, args: Array<any>, onlyChilds?: boolean) {
-
-	    // console.log(this, arguments)
-
-		onlyChilds = onlyChilds ? true : false
-		if (!onlyChilds) {
-			if (method in this) {
-				this[method].apply(this, args)
-			}
-			if (this._filtiredEvents && this._filtiredEvents[method]) {
-				var a: any
-				if (a = this._filtiredEvents[method].re.exec(args[0])) {
-					var i = 1
-					while (!a[i]) {
-						i++
-					}
-					var m = <any>this._filtiredEvents[method].order[i]
-					m['fe_' + method].apply(m, args)
+		if (fevents[event]) {
+			if (fevents[event][f]) {
+				for (let i = 0, c = fevents[event][f], l = c.length; i < l; i++) {
+					let plugin = c[i]
+					plugin[m].apply(plugin, args)
 				}
 			}
-	    }
-
-		for(var i = 0, c = this._plugins, l = c.length; i < l; i++) {
-			var plugin = c[i]
-			plugin._fireEvent(method, args)
+			for (let i = 0, c = fevents[event]['[regexp]'], l = c.length; i < l; i += 2) {
+				let re = c[i], plugin = c[i + 1]
+				if (re.exec(f)) {
+					plugin[m].apply(plugin, args)
+				}
+			}
 		}
 
 	}
-
-	fireEvent(method: string, ...args: Array<any>);
-
-	fireEvent(method: string) {
-		var args = Array.prototype.slice.call(arguments)
-		args.shift()
-
-		console.log('fireEvent', method, args)
-
-		var parent = this.getRootPlugin()
-		parent._fireEvent(method, args)
-	}
-
-	removeAllPlugins() {
-
-		for(var i = 0, c = this._plugins, l = c.length; i < l; i++) {
-			var plugin = c[i]
-			delete plugin._parentManager
-		}
-
-		this._plugins = [ ]
-	}
-	*/
 
 }
