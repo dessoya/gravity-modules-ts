@@ -1,3 +1,7 @@
 {
-	"use": "UI/Control|3.*"
+	"use": "UI/Control|3.*",
+
+	"debug": {
+		"css": [ "Header.css" ]
+	}
 }

@@ -15,9 +15,9 @@ declare var window: MyWindow
 
 export class Navigator extends Manager {
 
-	private _currentSection: Section = null
+	private _currentSection: HashSection = null
 
-	getDefaultSection(): Section {
+	getDefaultSection(): HashSection {
 		return null
 	}
 
@@ -49,7 +49,7 @@ export class Navigator extends Manager {
 		window.onhashchange()
 	}
 
-	onSectionMatch(section: Section) {
+	onSectionMatch(section: HashSection) {
 		this._currentSection = section
 	}
 

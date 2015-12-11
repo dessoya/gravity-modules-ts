@@ -1,9 +1,11 @@
 
 // alias: CGrid
+// use: Header.ts
 
 export class Grid extends Control {
 
 	public width: number
+	public columns: Array<any>
 
 	static params: Array<string> = 'width,columns'.split(',')
 
@@ -17,6 +19,8 @@ export class Grid extends Control {
 	}
 
 	ap_topFrame(element: HTMLElement) {
+		var header = new Header({ columns: this.columns })
+		header.append(element)
 	}
 
 	ap_bottomFrame(element: HTMLElement) {
