@@ -1,0 +1,9 @@
+.grid .row .cell {
+	position: absolute;
+	top: 0px;
+}
+
+
+.grid .row .cell .inner {
+	padding-left: 10px;
+}

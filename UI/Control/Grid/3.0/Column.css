@@ -1,0 +1,12 @@
+.grid .header .column {
+	position: absolute;
+	top: 0px;
+}
+
+.grid .header .column .inner {
+	padding-left: 10px;
+}
+
+.grid .header .column .inner.right-border {
+	border-right:1px solid #aeaeae;
+}

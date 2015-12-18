@@ -1,5 +1,6 @@
-<div class="header" id="% id %">
+<div class="header" id="% id %" style="width:% width %px;height:% height %px">
 	% for column in columns %
-	<div control=""></div>
+	<div data-append="true" control="column" name="column-%index%"></div>
+	<div data-append="true" control="resizer" name="resizer-%index%"></div>
 	% end for %
 </div>

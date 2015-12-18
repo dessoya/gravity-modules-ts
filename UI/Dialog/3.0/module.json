@@ -1,5 +1,5 @@
 {
-	"use": "PluginManager|3.*,UI/Builder|3.*",
+	"use": "PluginManager|3.*,UI/Builder|3.*,UI/Control/Common/Package|3.*",
 
 	"debug": {
 		"css": [ "Dialog.css" ]

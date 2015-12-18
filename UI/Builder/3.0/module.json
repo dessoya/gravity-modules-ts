@@ -1,3 +1,3 @@
 {
-	"use": "PluginManager|3.*,UI/Control/Edit|3.*,UI/Control/Button|3.*,UI/Control/Grid|3.*"
+	"use": "PluginManager|3.*"
 }

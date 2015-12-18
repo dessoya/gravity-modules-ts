@@ -1,9 +1,11 @@
 
+/*
 var Controls: Object = {
 	edit: CEdit,
 	button: UI_Control_Button.Button,
 	grid: CGrid
 }
+*/
 
 function readAndRemoveAttribute(element: HTMLElement, attrName: string): string {
 	var value: string = null
@@ -20,8 +22,10 @@ function readControlParams(element: HTMLElement, c: any): Object {
 	var p = c
 	if (!p._params) {
 		var _params = {}
-		for (let i = 0, c = p.params, l = c.length; i < l; i++) {
-			_params[c[i]] = true
+		if (p.params) {
+			for (let i = 0, c = p.params, l = c.length; i < l; i++) {
+				_params[c[i]] = true
+			}
 		}
 		p._params = _params
 	}
@@ -63,7 +67,12 @@ function readControlParamsFromParent(params: Object, owner: PluginManager.Manage
 
 export class Builder {
 
-	static build(owner: PluginManager.Manager, element: HTMLElement): void {
+	static idGenerator: number = 1
+
+	static build(owner: PluginManager.Manager, element: HTMLElement, controls: Object): void {
+
+		var queue: Array<any> = [ ]
+
 	    var c = element.querySelectorAll("*")	    
 	    for(var i = 0, l = c.length; i < l; i++) {
 	    	var item = <HTMLElement>c[i]
@@ -71,17 +80,69 @@ export class Builder {
 
 				var className = readAndRemoveAttribute(item, "control")
 
-				if (className in Controls) {
-					let c = Controls[className]
+				if (className in controls) {
+
+					var append = false
+					if (item.hasAttribute("data-append")) {
+						if (item.getAttribute("data-append") === "true") {
+							append = true
+						}
+					}
+
+					let c = controls[className]
 					let cp = readControlParams(item, c)
 					cp = readControlParamsFromParent(cp, owner)
 					var control = new c(cp)
 					owner[control.name] = control
 					owner.addPlugin(control)
-					control.place(item)
+
+					if (append) {
+
+						let itemId: string = "tmp-item-" + Builder.idGenerator
+						Builder.idGenerator ++ 
+						item.setAttribute('id', itemId)
+						// add to queue
+						queue.push(itemId, control)
+
+						/*
+						var itemParent = item.parentNode
+						itemParent.removeChild(item)
+
+						// 1. get item.parent
+
+						// 2. delete item from parent
+
+						control.append(itemParent)
+						*/
+					}
+					else {
+						control.place(item)
+					}
 				}
 			}
 	    }
+
+	    /*
+		if (queue.length > 0) {
+			console.log(queue)
+		}
+		*/
+
+		for (var i = 0, l = queue.length; i < l; i += 2) {
+			let itemId = queue[i], control = queue[i + 1]
+			let item = document.getElementById(itemId)
+
+			// console.log(item, control)
+
+			var itemParent = item.parentNode
+			itemParent.removeChild(item)
+
+			// 1. get item.parent
+
+			// 2. delete item from parent
+
+			control.append(itemParent)
+		}
 	}
 
 } 
