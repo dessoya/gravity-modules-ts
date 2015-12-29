@@ -40,6 +40,7 @@ var marks = {
 
 	, keyup: 'event'
 	, click: 'event'
+	, contextmenu: 'event'
 }
 
 for (var name in marks) {
@@ -66,6 +67,8 @@ for (var name in marks) {
 		}
 	}
 }
+
+var iidGenerator = 1
 
 export abstract class Control extends PluginManager.Manager {
 	 
@@ -100,7 +103,15 @@ export abstract class Control extends PluginManager.Manager {
 		}
 
 		this.elemId = 'ctrl-' + Control._idGenerator ++
-	} 
+	}
+
+	remove() {
+		if (!this.el) {
+			return
+		}
+
+		this.el.parentNode.removeChild(this.el)
+	}
 
 	private _afterPlace(): void {
 		this.el = document.getElementById(this.elemId)
@@ -131,7 +142,21 @@ export abstract class Control extends PluginManager.Manager {
 
 	append(element: HTMLElement) {
 		this._parentElement = element
-		this._parentElement.innerHTML = this._parentElement.innerHTML + this.render()
+
+		// 
+		// this._parentElement.innerHTML = this._parentElement.innerHTML + 
+		var iid = iidGenerator
+		iidGenerator ++
+
+		var el = <HTMLElement>document.createElement('div')
+		el.innerHTML = this.render()
+		el.style.display = 'none'
+		document.querySelector('body').appendChild(el)
+
+		var eltarget = document.getElementById(this.elemId)
+		document.querySelector('body').removeChild(el)
+
+		this._parentElement.appendChild(eltarget)
 
 		this._afterPlace()
 	}

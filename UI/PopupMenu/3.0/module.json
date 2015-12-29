@@ -1,0 +1,8 @@
+{
+	"use": "PluginManager|3.*,UI/Control|3.*",
+
+	"debug": {
+		"css": [ "PopupMenu.css", "Item.css" ]
+	}
+
+}

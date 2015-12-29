@@ -1,0 +1,10 @@
+.ctrl-popupmenu .item {
+	cursor: pointer;
+	border: 1px solid transparent;
+	padding: 2px 5px;
+}
+
+.ctrl-popupmenu .item:hover {
+	border: 1px solid black;	
+	background: #ccc;
+}

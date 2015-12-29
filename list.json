@@ -17,6 +17,7 @@
 
     "UI/Control/Common/Package": [ "3.0" ],
 
+	"UI/PopupMenu": [ "3.0" ],
     "UI/Builder": [ "3.0" ],
     "UI/Dialog": [ "3.0" ],
 

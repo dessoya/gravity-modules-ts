@@ -1,14 +1,15 @@
  
 export class Row extends Control {
 
-	public height: number
+	public height: number	
 	public width: number
 	public cells: any
 	public columns: Array<any>
+	public rowIndex: number
 
 	public controlParams: Object
 	
-	static params: Array<string> = 'cells,columns,height,width'.split(',')	
+	static params: Array<string> = 'cells,columns,height,width,rowIndex'.split(',')	
 
 	constructor(params: Object) {
 		super(params)
@@ -48,7 +49,7 @@ export class Row extends Control {
 	}
 
 	render(): string {
-		return require('Row.html')({ id: this.elemId, columns: this.columns, width: this.width, height: this.height })
+		return require('Row.html')({ id: this.elemId, columns: this.columns, width: this.width, height: this.height, rowIndex: this.rowIndex })
 	}
 
 	afterPlace() {

@@ -1,5 +1,5 @@
 {
-	"use": "UI/Control|3.*,UI/Builder|3.*,PluginManager|3.*",
+	"use": "UI/Control|3.*,UI/Builder|3.*,PluginManager|3.*,UI/PopupMenu|3.*",
 
 	"debug": {
 		"css": [ "Header.css", "Column.css", "Row.css", "Cell.css" ]

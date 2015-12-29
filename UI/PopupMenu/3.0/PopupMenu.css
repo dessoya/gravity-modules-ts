@@ -1,0 +1,20 @@
+.ctrl-popupmenu {
+	position: absolute;
+
+	background: #ffffff;
+	padding: 1px;
+	cursor: default;
+}
+
+.ctrl-popupmenu .inner {
+	border: 1px solid #cecece;
+	background: #eeeeee;
+	padding: 6px 10px;
+}
+
+
+.ctrl-popupmenu .title {
+	padding: 6px 5px 4px 5px;
+	border-bottom: 1px solid black;
+	margin-bottom: 3px;
+}
